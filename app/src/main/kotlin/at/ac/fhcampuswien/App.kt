@@ -57,11 +57,20 @@ class App {
      *         The result is formatted as "Output: m:n", where "m" and "n" represent the above values, respectively.
      * @throws IllegalArgumentException if the inputs do not have the same number of digits.
      */
-    val checkUserInputAgainstGeneratedNumber: (Int, Int) -> CompareResult = { input, generatedNumber ->
-        //TODO implement the function
-        CompareResult(0, 0)   // return value is a placeholder
+val checkUserInputAgainstGeneratedNumber: (Int, Int) -> CompareResult = { input, generatedNumber ->
+    val inputStr = input.toString()
+    val generatedStr = generatedNumber.toString()
+
+    if (inputStr.length != generatedStr.length) {
+        throw IllegalArgumentException("The inputs do not have the same number of digits.")
     }
-}
+
+    val uniqueDigitsFromInput = inputStr.toSet()
+    val m = uniqueDigitsFromInput.count { it in generatedStr }
+    val n = inputStr.indices.count { inputStr[it] == generatedStr[it] }
+
+    CompareResult(m, n)
+}}
 
 fun main() {
     println("Welcome to the Number Guessing Game!")
