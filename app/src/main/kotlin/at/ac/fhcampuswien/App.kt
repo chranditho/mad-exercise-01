@@ -5,23 +5,24 @@ package at.ac.fhcampuswien
 
 class App {
     // Game logic for a number guessing game
-fun playNumberGame(digitsToGuess: Int = 4) {
-    val randomNonRepeatingNumber = generateRandomNonRepeatingNumber(digitsToGuess)
-    println("Please enter a number:")
-    while (true) {
-        val number = readlnOrNull()?.toIntOrNull()
-        if (number != null) {
-            val result = checkUserInputAgainstGeneratedNumber(number, randomNonRepeatingNumber)
-            println("Output: ${result.m}:${result.n}")
-            if (number == randomNonRepeatingNumber) {
-                println("Congratulations! You guessed the correct number.")
-                break
+    fun playNumberGame(digitsToGuess: Int = 4) {
+        val randomNonRepeatingNumber = generateRandomNonRepeatingNumber(digitsToGuess)
+        println("Please enter $digitsToGuess-digit a number:")
+        while (true) {
+            val number = readlnOrNull()?.toIntOrNull()
+            if (number != null) {
+                val result = checkUserInputAgainstGeneratedNumber(number, randomNonRepeatingNumber)
+                println("Output: ${result.m}:${result.n}")
+                if (number == randomNonRepeatingNumber) {
+                    println("Congratulations! You guessed the correct number.")
+                    break
+                }
+            } else {
+                println("Invalid input. Please enter a number.")
             }
-        } else {
-            println("Invalid input. Please enter a number.")
         }
     }
-}
+
     /**
      * Generates a non-repeating number of a specified length between 1-9.
      *
@@ -39,8 +40,7 @@ fun playNumberGame(digitsToGuess: Int = 4) {
     val generateRandomNonRepeatingNumber: (Int) -> Int = { length ->
         if (length > 9 || length < 1) {
             throw IllegalArgumentException("The length is more than 9 or less than 1.")
-        }
-        else {
+        } else {
             val numbers = mutableListOf<Int>()
             for (i in 1..9) {
                 numbers.add(i)
@@ -70,24 +70,29 @@ fun playNumberGame(digitsToGuess: Int = 4) {
      *         The result is formatted as "Output: m:n", where "m" and "n" represent the above values, respectively.
      * @throws IllegalArgumentException if the inputs do not have the same number of digits.
      */
-val checkUserInputAgainstGeneratedNumber: (Int, Int) -> CompareResult = { input, generatedNumber ->
-    val inputStr = input.toString()
-    val generatedStr = generatedNumber.toString()
+    val checkUserInputAgainstGeneratedNumber: (Int, Int) -> CompareResult = { input, generatedNumber ->
+        val inputStr = input.toString()
+        val generatedStr = generatedNumber.toString()
 
-    if (inputStr.length != generatedStr.length) {
-        throw IllegalArgumentException("The inputs do not have the same number of digits.")
+        if (inputStr.length != generatedStr.length) {
+            throw IllegalArgumentException("The inputs do not have the same number of digits.")
+        }
+
+        val uniqueDigitsFromInput = inputStr.toSet()
+        val m = uniqueDigitsFromInput.count { it in generatedStr }
+        val n = inputStr.indices.count { inputStr[it] == generatedStr[it] }
+
+        CompareResult(m, n)
     }
-
-    val uniqueDigitsFromInput = inputStr.toSet()
-    val m = uniqueDigitsFromInput.count { it in generatedStr }
-    val n = inputStr.indices.count { inputStr[it] == generatedStr[it] }
-
-    CompareResult(m, n)
-}}
+}
 
 fun main() {
     println("Welcome to the Number Guessing Game!")
     val app = App()
-//    app.playNumberGame(3)    // call the function without default arguments
-    app.playNumberGame()   // call the function with default arguments
+
+    println("Enter a number of digits to guess (between 1 and 9, or press Enter to use the default):")
+    val userInput = readlnOrNull()
+
+    if (userInput.isNullOrEmpty()) app.playNumberGame() else app.playNumberGame(userInput.toInt())
+
 }
