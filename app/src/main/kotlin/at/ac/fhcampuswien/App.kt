@@ -14,6 +14,7 @@ class App {
                 val result = checkUserInputAgainstGeneratedNumber(number, randomNonRepeatingNumber)
                 println("Output: ${result.m}:${result.n}")
                 if (number == randomNonRepeatingNumber) {
+                    printWinAsciiArt()
                     println("Congratulations! You guessed the correct number.")
                     break
                 }
@@ -21,6 +22,19 @@ class App {
                 println("Invalid input. Please enter a number.")
             }
         }
+    }
+
+    private fun printWinAsciiArt() {
+        println("""
+                            
+                                                                     
+                             _   _  ___  _   _  __      _____  _ __  
+                            | | | |/ _ \| | | | \ \ /\ / / _ \| '_ \ 
+                            | |_| | (_) | |_| |  \ V  V / (_) | | | |
+                             \__, |\___/ \__,_|   \_/\_/ \___/|_| |_|
+                             |___/                                   
+                             
+                        """.trimIndent())
     }
 
     /**
@@ -87,6 +101,8 @@ class App {
 }
 
 fun main() {
+    printAppTitleAsciiArt()
+
     println("Welcome to the Number Guessing Game!")
     val app = App()
 
@@ -95,4 +111,16 @@ fun main() {
 
     if (userInput.isNullOrEmpty()) app.playNumberGame() else app.playNumberGame(userInput.toInt())
 
+}
+
+private fun printAppTitleAsciiArt() {
+    println("""
+        
+             __                 _                   ___                     _                 ___                     
+          /\ \ \_   _ _ __ ___ | |__   ___ _ __    / _ \_   _  ___  ___ ___(_)_ __   __ _    / _ \__ _ _ __ ___   ___ 
+         /  \/ / | | | '_ ` _ \| '_ \ / _ \ '__|  / /_\/ | | |/ _ \/ __/ __| | '_ \ / _` |  / /_\/ _` | '_ ` _ \ / _ \
+        / /\  /| |_| | | | | | | |_) |  __/ |    / /_\\| |_| |  __/\__ \__ \ | | | | (_| | / /_\\ (_| | | | | | |  __/
+        \_\ \/  \__,_|_| |_| |_|_.__/ \___|_|    \____/ \__,_|\___||___/___/_|_| |_|\__, | \____/\__,_|_| |_| |_|\___|
+                                                                                    |___/                             
+    """.trimIndent())
 }
