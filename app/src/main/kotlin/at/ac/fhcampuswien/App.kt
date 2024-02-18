@@ -24,8 +24,21 @@ class App {
      * @throws IllegalArgumentException if the length is more than 9 or less than 1.
      */
     val generateRandomNonRepeatingNumber: (Int) -> Int = { length ->
-        //TODO implement the function
-        0   // return value is a placeholder
+        if (length > 9 || length < 1) {
+            throw IllegalArgumentException("The length is more than 9 or less than 1.")
+        }
+        else {
+            val numbers = mutableListOf<Int>()
+            for (i in 1..9) {
+                numbers.add(i)
+            }
+            numbers.shuffle()
+            var result = ""
+            for (i in 0 until length) {
+                result += numbers[i]
+            }
+            result.toInt()
+        }
     }
 
     /**
