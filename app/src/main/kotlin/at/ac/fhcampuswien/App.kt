@@ -5,10 +5,23 @@ package at.ac.fhcampuswien
 
 class App {
     // Game logic for a number guessing game
-    fun playNumberGame(digitsToGuess: Int = 4) {
-        //TODO: build a menu which calls the functions and works with the return values
+fun playNumberGame(digitsToGuess: Int = 4) {
+    val randomNonRepeatingNumber = generateRandomNonRepeatingNumber(digitsToGuess)
+    println("Please enter a number:")
+    while (true) {
+        val number = readlnOrNull()?.toIntOrNull()
+        if (number != null) {
+            val result = checkUserInputAgainstGeneratedNumber(number, randomNonRepeatingNumber)
+            println("Output: ${result.m}:${result.n}")
+            if (number == randomNonRepeatingNumber) {
+                println("Congratulations! You guessed the correct number.")
+                break
+            }
+        } else {
+            println("Invalid input. Please enter a number.")
+        }
     }
-
+}
     /**
      * Generates a non-repeating number of a specified length between 1-9.
      *
