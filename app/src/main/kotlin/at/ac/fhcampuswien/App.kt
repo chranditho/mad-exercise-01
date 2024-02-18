@@ -51,7 +51,8 @@ class App {
 }
 
 fun main() {
+    println("Welcome to the Number Guessing Game!")
     val app = App()
-    app.playNumberGame(3)    // call the function without default arguments
+//    app.playNumberGame(3)    // call the function without default arguments
     app.playNumberGame()   // call the function with default arguments
 }
